@@ -72,6 +72,10 @@ src_unpack() {
 src_compile() {
 	# selfwritten configure script
 	./configure \
+		--prefix=${EPREFIX}/usr \
+		--psfdir=${EPREFIX}/usr/share/consolefonts \
+		--acmdir=${EPREFIX}/usr/share/consoletrans \
+		--unidir=${EPREFIX}/usr/share/consoletrans \
 		--x11dir=${EPREFIX}/usr/share/fonts/terminus
 
 	if use psf; then emake psf txt || die; fi
