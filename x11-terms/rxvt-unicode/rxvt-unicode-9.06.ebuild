@@ -18,7 +18,7 @@ RDEPEND="x11-libs/libX11
 	x11-libs/libXft
 	afterimage? ( media-libs/libafterimage )
 	x11-libs/libXrender
-	perl?"
+	perl? ( dev-lang/perl )"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig
 	x11-proto/xproto"
@@ -26,8 +26,6 @@ DEPEND="${RDEPEND}
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
-
-	epatch "${FILESDIR}/rxvtperl-objc-doublefree.diff"
 
 	if (use xterm-color || use wcwidth); then
 		ewarn "You enabled xterm-color or wcwidth or both."
