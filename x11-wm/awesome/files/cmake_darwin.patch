@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a605492..71564db 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -100,7 +100,8 @@ add_executable(${PROJECT_AWECLIENT_NAME}
+ 
+ set_target_properties(${PROJECT_AWE_NAME}
+     PROPERTIES
+-    LINK_FLAGS -export-dynamic)
++    LINK_FLAGS --export-dynamic
++    LINK_FLAGS -liconv)
+ 
+ target_link_libraries(${PROJECT_AWE_NAME}
+     ${AWESOME_COMMON_REQUIRED_LIBRARIES}
