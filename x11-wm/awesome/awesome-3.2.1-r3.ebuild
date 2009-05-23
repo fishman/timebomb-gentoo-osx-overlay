@@ -74,7 +74,7 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}"
 
-	epatch ${FILESDIR}/cmake_darwin.patch
+	[[ ${CHOST} == *-apple-darwin* ]] && epatch ${FILESDIR}/cmake_darwin.patch
 }
 
 src_compile() {
