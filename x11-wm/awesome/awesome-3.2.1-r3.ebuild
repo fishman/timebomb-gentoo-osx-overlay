@@ -11,7 +11,7 @@ SRC_URI="http://awesome.naquadah.org/download/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~ppc64 ~x86 ~x86-fbsd ~x86-macos"
+KEYWORDS="~x86-freebsd ~amd64-linux ~x86-linux ~x86-macos"
 #IUSE="dbus doc bash-completion"
 IUSE="dbus doc"
 
@@ -75,6 +75,7 @@ src_unpack() {
 	cd "${S}"
 
 	[[ ${CHOST} == *-apple-darwin* ]] && epatch ${FILESDIR}/cmake_darwin.patch
+	[[ ${CHOST} == *-apple-darwin* ]] && epatch ${FILESDIR}/awesome_darwin_socket.diff
 }
 
 src_compile() {

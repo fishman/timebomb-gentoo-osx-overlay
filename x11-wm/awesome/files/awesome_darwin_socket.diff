@@ -1,0 +1,26 @@
+diff --git a/awesome-client.c b/awesome-client.c
+index c55f0d7..7e8686d 100644
+--- a/awesome-client.c
++++ b/awesome-client.c
+@@ -92,7 +92,7 @@ sockets_reconnect(void)
+ static int
+ send_msg(const char *msg, ssize_t msg_len)
+ {
+-    #ifndef __FreeBSD__
++    #ifndef __FreeBSD__ || __DARWIN__
+     if(send(csfd, msg, msg_len, MSG_NOSIGNAL | MSG_EOR) == -1)
+     #else
+     if(send(csfd, msg, msg_len, MSG_NOSIGNAL | MSG_EOF) == -1)
+diff --git a/common/socket.c b/common/socket.c
+index ba89831..b927ad4 100644
+--- a/common/socket.c
++++ b/common/socket.c
+@@ -78,7 +78,7 @@ int
+ socket_getclient(void)
+ {
+     int csfd;
+-    #ifndef __FreeBSD__
++    #ifndef __FreeBSD__ || __DARWIN__
+     csfd = socket(AF_UNIX, SOCK_SEQPACKET, 0);
+     #else
+     csfd = socket(PF_UNIX, SOCK_STREAM, 0);
