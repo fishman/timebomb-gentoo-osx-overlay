@@ -55,7 +55,7 @@ src_unpack() {
 
 src_compile() {
 	econf \
-		--libdir="/usr/$(get_libdir)/lapack/reference" \
+		--libdir="$EPREFIX/usr/$(get_libdir)/lapack/reference" \
 		--with-blas="$(pkg-config --libs blas)" \
 		|| die "econf failed"
 	emake || die "emake failed"
