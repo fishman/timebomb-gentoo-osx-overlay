@@ -1,0 +1,512 @@
+diff --git a/bin/euca-add-group b/bin/euca-add-group
+index 4457b17..8c22669 100755
+--- a/bin/euca-add-group
++++ b/bin/euca-add-group
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-add-keypair b/bin/euca-add-keypair
+index 220f108..900815f 100755
+--- a/bin/euca-add-keypair
++++ b/bin/euca-add-keypair
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-allocate-address b/bin/euca-allocate-address
+index 93b8688..666a95f 100755
+--- a/bin/euca-allocate-address
++++ b/bin/euca-allocate-address
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-associate-address b/bin/euca-associate-address
+index 7021b82..8b48b4f 100755
+--- a/bin/euca-associate-address
++++ b/bin/euca-associate-address
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-attach-volume b/bin/euca-attach-volume
+index c0de673..f8a251e 100755
+--- a/bin/euca-attach-volume
++++ b/bin/euca-attach-volume
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-authorize b/bin/euca-authorize
+index cfa07c9..0b3efc7 100755
+--- a/bin/euca-authorize
++++ b/bin/euca-authorize
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-bundle-image b/bin/euca-bundle-image
+index e4648c6..939b42c 100755
+--- a/bin/euca-bundle-image
++++ b/bin/euca-bundle-image
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-bundle-instance b/bin/euca-bundle-instance
+index b991f0d..f722772 100755
+--- a/bin/euca-bundle-instance
++++ b/bin/euca-bundle-instance
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-bundle-vol b/bin/euca-bundle-vol
+index eefd3f9..6ece7f5 100755
+--- a/bin/euca-bundle-vol
++++ b/bin/euca-bundle-vol
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-cancel-bundle-task b/bin/euca-cancel-bundle-task
+index b6794f0..76c5dbc 100755
+--- a/bin/euca-cancel-bundle-task
++++ b/bin/euca-cancel-bundle-task
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-confirm-product-instance b/bin/euca-confirm-product-instance
+index fcf7e06..e80afaa 100755
+--- a/bin/euca-confirm-product-instance
++++ b/bin/euca-confirm-product-instance
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-create-snapshot b/bin/euca-create-snapshot
+index 4ef7826..3f10d5b 100755
+--- a/bin/euca-create-snapshot
++++ b/bin/euca-create-snapshot
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-create-volume b/bin/euca-create-volume
+index 6925baf..086719e 100755
+--- a/bin/euca-create-volume
++++ b/bin/euca-create-volume
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-delete-bundle b/bin/euca-delete-bundle
+index 6a4d95a..734919b 100755
+--- a/bin/euca-delete-bundle
++++ b/bin/euca-delete-bundle
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-delete-group b/bin/euca-delete-group
+index ae63dcc..0ad9a3c 100755
+--- a/bin/euca-delete-group
++++ b/bin/euca-delete-group
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-delete-keypair b/bin/euca-delete-keypair
+index 985a6aa..565a97d 100755
+--- a/bin/euca-delete-keypair
++++ b/bin/euca-delete-keypair
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-delete-snapshot b/bin/euca-delete-snapshot
+index 0c142d7..94ccd02 100755
+--- a/bin/euca-delete-snapshot
++++ b/bin/euca-delete-snapshot
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-delete-volume b/bin/euca-delete-volume
+index 431d016..1a583e3 100755
+--- a/bin/euca-delete-volume
++++ b/bin/euca-delete-volume
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-deregister b/bin/euca-deregister
+index d740e38..d13bc19 100755
+--- a/bin/euca-deregister
++++ b/bin/euca-deregister
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-addresses b/bin/euca-describe-addresses
+index 0a6b675..5ac97ac 100755
+--- a/bin/euca-describe-addresses
++++ b/bin/euca-describe-addresses
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-availability-zones b/bin/euca-describe-availability-zones
+index befc21b..08be69c 100755
+--- a/bin/euca-describe-availability-zones
++++ b/bin/euca-describe-availability-zones
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-bundle-tasks b/bin/euca-describe-bundle-tasks
+index 8833652..8741250 100755
+--- a/bin/euca-describe-bundle-tasks
++++ b/bin/euca-describe-bundle-tasks
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-groups b/bin/euca-describe-groups
+index 3d32f79..df16504 100755
+--- a/bin/euca-describe-groups
++++ b/bin/euca-describe-groups
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-image-attribute b/bin/euca-describe-image-attribute
+index b3e9eac..3d07f31 100755
+--- a/bin/euca-describe-image-attribute
++++ b/bin/euca-describe-image-attribute
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-images b/bin/euca-describe-images
+index 71c4c46..ba6f74a 100755
+--- a/bin/euca-describe-images
++++ b/bin/euca-describe-images
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-instances b/bin/euca-describe-instances
+index 9bd6092..9a017e4 100755
+--- a/bin/euca-describe-instances
++++ b/bin/euca-describe-instances
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-keypairs b/bin/euca-describe-keypairs
+index 3ce151e..5b87639 100755
+--- a/bin/euca-describe-keypairs
++++ b/bin/euca-describe-keypairs
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-regions b/bin/euca-describe-regions
+index 05e7a27..e01f0f9 100755
+--- a/bin/euca-describe-regions
++++ b/bin/euca-describe-regions
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-snapshots b/bin/euca-describe-snapshots
+index f4d7f67..7346783 100755
+--- a/bin/euca-describe-snapshots
++++ b/bin/euca-describe-snapshots
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-describe-volumes b/bin/euca-describe-volumes
+index 3a1bfcd..fa0eae1 100755
+--- a/bin/euca-describe-volumes
++++ b/bin/euca-describe-volumes
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-detach-volume b/bin/euca-detach-volume
+index d42deb4..403b300 100755
+--- a/bin/euca-detach-volume
++++ b/bin/euca-detach-volume
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-disassociate-address b/bin/euca-disassociate-address
+index 0f634f9..c8a6b47 100755
+--- a/bin/euca-disassociate-address
++++ b/bin/euca-disassociate-address
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-download-bundle b/bin/euca-download-bundle
+index 7691605..f12952a 100755
+--- a/bin/euca-download-bundle
++++ b/bin/euca-download-bundle
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-get-console-output b/bin/euca-get-console-output
+index 991fe39..e2e979c 100755
+--- a/bin/euca-get-console-output
++++ b/bin/euca-get-console-output
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-get-password b/bin/euca-get-password
+index e57f706..7038171 100755
+--- a/bin/euca-get-password
++++ b/bin/euca-get-password
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-get-password-data b/bin/euca-get-password-data
+index 6df3119..637c314 100755
+--- a/bin/euca-get-password-data
++++ b/bin/euca-get-password-data
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-modify-image-attribute b/bin/euca-modify-image-attribute
+index d9eb57c..e35b10a 100755
+--- a/bin/euca-modify-image-attribute
++++ b/bin/euca-modify-image-attribute
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-reboot-instances b/bin/euca-reboot-instances
+index fc5cd72..59cafe3 100755
+--- a/bin/euca-reboot-instances
++++ b/bin/euca-reboot-instances
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-register b/bin/euca-register
+index 9638ef1..b77ea46 100755
+--- a/bin/euca-register
++++ b/bin/euca-register
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-release-address b/bin/euca-release-address
+index 574a371..93bfd69 100755
+--- a/bin/euca-release-address
++++ b/bin/euca-release-address
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-reset-image-attribute b/bin/euca-reset-image-attribute
+index 616f053..4d5969c 100755
+--- a/bin/euca-reset-image-attribute
++++ b/bin/euca-reset-image-attribute
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-revoke b/bin/euca-revoke
+index 2f0262e..ce37c13 100755
+--- a/bin/euca-revoke
++++ b/bin/euca-revoke
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-run-instances b/bin/euca-run-instances
+index a3c5665..22811f4 100755
+--- a/bin/euca-run-instances
++++ b/bin/euca-run-instances
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-terminate-instances b/bin/euca-terminate-instances
+index a9a2e14..4ac1cc5 100755
+--- a/bin/euca-terminate-instances
++++ b/bin/euca-terminate-instances
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-unbundle b/bin/euca-unbundle
+index 056928d..276d660 100755
+--- a/bin/euca-unbundle
++++ b/bin/euca-unbundle
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-upload-bundle b/bin/euca-upload-bundle
+index 7e6b28e..2760a69 100755
+--- a/bin/euca-upload-bundle
++++ b/bin/euca-upload-bundle
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/bin/euca-version b/bin/euca-version
+index ebb149a..e48a84f 100755
+--- a/bin/euca-version
++++ b/bin/euca-version
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)
+diff --git a/euca2ools.spec b/euca2ools.spec
+index 16a7c0d..5d6d9cd 100644
+--- a/euca2ools.spec
++++ b/euca2ools.spec
+@@ -83,7 +83,7 @@ cd ../euca2ools
+ %if %is_centos
+ cd ..
+ for x in `/bin/ls bin/euca-*`; do
+-	sed --in-place 's:#!/usr/bin/python:#!/usr/bin/env python2.5:' $x
++	sed --in-place 's:#!/usr/bin/env python:#!/usr/bin/env python2.5:' $x
+ done
+ %endif
+ 
+diff --git a/euca2ools/euca2ools/__init__.py b/euca2ools/euca2ools/__init__.py
+index d602971..bd7e5ff 100644
+--- a/euca2ools/euca2ools/__init__.py
++++ b/euca2ools/euca2ools/__init__.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ # Software License Agreement (BSD License)
+ #
+@@ -309,7 +309,7 @@ class Util:
+ 
+ -U, --url			URL of the Cloud to connect to.
+ 
+---config			Read credentials and cloud settings from the 
++--config			Read credentials and cloud settings from the
+ 				specified config file (defaults to $HOME/.eucarc or /etc/euca2ools/eucarc).
+ 
+ -h, --help			Display this help message.
+diff --git a/euca2ools/setup.py b/euca2ools/setup.py
+index ec6593e..32fe4da 100644
+--- a/euca2ools/setup.py
++++ b/euca2ools/setup.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+ # -*- coding: utf-8 -*-
+ 
+ # Software License Agreement (BSD License)

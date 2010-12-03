@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!-- 
+$Header: /var/cvsroot/gentoo-x86/skel.metadata.xml,v 1.18 2008/07/28 19:27:05 cardoe Exp $
+
+This is the example metadata file.
+The root element of this file is <pkgmetadata>. Within this element a 
+number of subelements are allowed: herd, maintainer, and 
+longdescription. herd is a required subelement.
+
+For a full description look at:
+http://www.gentoo.org/proj/en/devrel/handbook/handbook.xml?part=2&chap=4
+
+
+Before committing, please remove the comments from this file. They are 
+not relevant for general metadata.xml files.
+-->
+<pkgmetadata>
+<herd>no-herd</herd>
+<maintainer>
+  <email>g.m.smithreading.ac.uk</email>
+<!--  <description>Description of the maintainership</description> -->
+</maintainer>
+<longdescription>Euca2ools are command-line tools for interacting with Web
+services that export a REST/Query-based API compatible with Amazon EC2 and S3 services.  The tools can be used with both Amazon's services and with installations of the Eucalyptus open-source cloud-computing infrastructure.  The tools were inspired by command-line tools distributed by Amazon (api-tools and ami-tools) and largely accept the same options and environment variables.  However, these tools were implemented from scratch in Python, relying on the Boto AWS library and M2Crypto toolkit.
+</longdescription>
+<!--
+<use>
+  <flag name='flag'>Description of how USE='flag' affects this package</flag>
+  <flag name='userland_GNU'>Description of how USERLAND='GNU' affects this
+	  package</flag>
+  <flag name='aspell'>Uses <pkg>app-text/aspell</pkg> for spell checking.
+	  Requires an installed dictionary from <cat>app-dicts</cat></flag>
+</use>
+-->
+</pkgmetadata>
