@@ -1,0 +1,29 @@
+#!/sbin/runscript
+
+ES_CONF=/etc/elasticsearch/elasticsearch.yml
+ES_PID=/var/run/elasticsearch.pid
+ES_USER=elasticsearch
+ES_GROUP=elasticsearch
+ES_INCLUDE_PATH=/opt/elasticsearch/bin/elasticsearch.in.sh
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting ${SVCNAME}"
+
+    start-stop-daemon --start --user ${ES_USER}:${ES_GROUP} \
+        --env ES_INCLUDE_PATH=${ES_INCLUDE_PATH} \
+        --background --make-pidfile --pidfile "${ES_PID}" \
+        --exec /opt/elasticsearch/bin/elasticsearch -- -f -Des.config="${ES_CONF}"
+    eend $?
+}
+
+stop() {
+	ebegin "Stopping ${SVCNAME}"
+	start-stop-daemon --stop --quiet --pidfile "${ES_PID}"
+	ret=$?
+	rm -f "${ES_PID}"
+	eend $?
+}

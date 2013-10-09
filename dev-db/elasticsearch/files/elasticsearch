@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ES_INCLUDE=${EPREFIX}/opt/elasticsearch/bin/elasticsearch.in.sh ${EPREFIX}/opt/elasticsearch/bin/elasticsearch $@
