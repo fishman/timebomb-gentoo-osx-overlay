@@ -1,0 +1,38 @@
+diff --git a/src/display.cc b/src/display.cc
+index 4456ca0..55fc18d 100644
+--- a/src/display.cc
++++ b/src/display.cc
+@@ -41,6 +41,21 @@ along with Octave; see the file COPYING.  If not, see
+ 
+ display_info *display_info::instance = 0;
+ 
++#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
++size_t DisplayBitsPerPixel (CGDirectDisplayID display)
++{
++  CGDisplayModeRef mode = CGDisplayCopyDisplayMode (display);
++  CFStringRef pixelEncoding = CGDisplayModeCopyPixelEncoding (mode);
++
++  if (CFStringCompare (pixelEncoding, CFSTR (IO32BitDirectPixels), 0) == 0)
++    return 32;
++  else if (CFStringCompare (pixelEncoding, CFSTR (IO16BitDirectPixels), 0) == 0)
++    return 16;
++  else
++    return 8;
++}
++#endif
++
+ void
+ display_info::init (bool query)
+ {
+@@ -72,7 +87,11 @@ display_info::init (bool query)
+ 
+       if (display)
+         {
++#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
++          dp = DisplayBitsPerPixel (display);
++#else
+           dp = CGDisplayBitsPerPixel (display);
++#endif
+ 
+           ht = CGDisplayPixelsHigh (display);
+           wd = CGDisplayPixelsWide (display);

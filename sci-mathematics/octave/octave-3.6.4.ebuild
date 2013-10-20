@@ -67,6 +67,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.4.3-{pkgbuilddir,texi}.patch
 	"${FILESDIR}"/${PN}-3.6.3-legendtext.patch
 	"${FILESDIR}"/${PN}-3.6.4-texinfo.patch
+	"${FILESDIR}"/${PN}-3.6.4-darwin.patch
 )
 
 src_prepare() {
@@ -120,6 +121,7 @@ src_configure() {
 	else
 		myeconfargs+=( "--without-magick" )
 	fi
+	epatch "${FILESDIR}"/${PN}-3.6.4-darwin.patch
 	autotools-utils_src_configure
 }
 
