@@ -172,8 +172,8 @@ src_prepare() {
 	fi
 
 	if [[ ${CHOST} == *-darwin* ]] ; then
-        epatch "${FILESDIR}"/${PN}-3.4-fix_darwin_build.patch
-    fi
+		epatch "${FILESDIR}"/${PN}-3.4-fix_darwin_build.patch
+	fi
 
 	local sub_files=(
 		Makefile.config.in
@@ -216,7 +216,7 @@ multilib_src_configure() {
 
 	# Setup the search path to include the Prefix includes
 	if use prefix ; then
-        conf_flags+=( --with-c-include-dirs=${EPREFIX}/usr/include:/usr/include )
+		conf_flags+=( --with-c-include-dirs=${EPREFIX}/usr/include:/usr/include )
 	fi
 
 	if use clang; then
@@ -471,10 +471,10 @@ multilib_src_install() {
 				"${f}"
 			eend $?
 		done
-        for f in "${ED}"/usr/lib/clang/${libpv}/lib/darwin/libclang_rt.asan_{iossim,osx}_dynamic.dylib ; do
-            odylib="${f#$ED/}"
-            install_name_tool -id "${EPREFIX}/${odylib}" "${f}"
-        done
+		for f in "${ED}"/usr/lib/clang/${libpv}/lib/darwin/libclang_rt.asan_{iossim,osx}_dynamic.dylib ; do
+			odylib="${f#$ED/}"
+			install_name_tool -id "${EPREFIX}/${odylib}" "${f}"
+		done
 	fi
 }
 
