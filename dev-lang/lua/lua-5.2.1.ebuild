@@ -89,14 +89,14 @@ src_compile() {
 			LUA_LIBS="${mylibs}" \
 			LIB_LIBS="${liblibs}" \
 			V=${PV} \
-			gentoo_all || die "emake failed"
+			all || die "emake failed"
 }
 
 src_install() {
 	local PATCH_PV=$(get_version_component_range 1-2)
 
 	emake INSTALL_TOP="${ED}/usr" INSTALL_LIB="${ED}/usr/$(get_libdir)" \
-			V=${PV} gentoo_install \
+			V=${PV} install \
 	|| die "emake install gentoo_install failed"
 
 	dodoc README
