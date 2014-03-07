@@ -118,6 +118,7 @@ src_prepare() {
     epatch "${FILESDIR}"/${PN}-3.1.1-no-headers.patch
     epatch "${FILESDIR}"/${PN}-4.0-no-oss-dir.patch
     # doesn't apply epatch "${FILESDIR}"/${PN}-4.2-lto.patch
+    epatch "${FILESDIR}"/${CCTOOLS}-lto.patch
 
 	local program
 	for program in ar efitools gprof libmacho misc otool ; do
