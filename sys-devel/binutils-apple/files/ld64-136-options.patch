@@ -1,0 +1,13 @@
+diff --git a/ld/Options.cpp b/ld/Options.cpp
+index 0131911..20d3059 100644
+--- a/ld/Options.cpp
++++ b/ld/Options.cpp
+@@ -42,6 +42,8 @@
+ #include "MachOFileAbstraction.hpp"
+ #include "Snapshot.h"
+ 
++
++#define ALL_SUPPORTED_ARCHS "x86_64 i386"
+ // upward dependency on lto::version()
+ namespace lto {
+ 	extern const char* version();
