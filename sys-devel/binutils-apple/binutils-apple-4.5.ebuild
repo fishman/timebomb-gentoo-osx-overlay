@@ -70,18 +70,12 @@ src_prepare() {
 	cp "${FILESDIR}"/${LD64}-compile_stubs.h ld/compile_stubs.h
 	cp "${FILESDIR}"/${LD64}-Makefile Makefile
 
-    # epatch "${FILESDIR}"/ld64-136-options.patch
-    epatch "${FILESDIR}"/ld64-136-lto.patch
-    if use prefix; then
-        epatch "${FILESDIR}"/ld64-136-librarypath.patch
+	# epatch "${FILESDIR}"/ld64-136-options.patch
+	epatch "${FILESDIR}"/ld64-136-lto.patch
+	if use prefix; then
+		epatch "${FILESDIR}"/ld64-136-librarypath.patch
 		sed -i -e 's!EPREFIX!'${EPREFIX}'!' ld/Options.cpp || die
-    fi
-	# epatch "${FILESDIR}"/ld64-127.2-lto.patch
-	# epatch "${FILESDIR}"/ld64-128.2-stdlib.patch
-
-    # TODO: hack
-    # cp ../../${LIBC}/include/CrashReporterClient.h ${WORKDIR}/libunwind/include
-
+	fi
 
 	ln -s ../../${CCTOOLS}/include
 	cp other/prune_trie.h include/mach-o/ || die
@@ -110,15 +104,13 @@ src_prepare() {
 	fi
 
 	cd "${S}"/${CCTOOLS}
-    epatch "${FILESDIR}"/${PN}-4.0-as.patch
-    # doesn't apply epatch "${FILESDIR}"/${PN}-4.2-as-dir.patch
-    epatch "${FILESDIR}"/${PN}-3.2.3-ranlib.patch
-    epatch "${FILESDIR}"/${PN}-3.1.1-libtool-ranlib.patch
-    # doesn't apply epatch "${FILESDIR}"/${PN}-3.1.1-nmedit.patch
-    epatch "${FILESDIR}"/${PN}-3.1.1-no-headers.patch
-    epatch "${FILESDIR}"/${PN}-4.0-no-oss-dir.patch
-    # doesn't apply epatch "${FILESDIR}"/${PN}-4.2-lto.patch
-    epatch "${FILESDIR}"/${CCTOOLS}-lto.patch
+	epatch "${FILESDIR}"/${PN}-4.0-as.patch
+	# doesn't apply epatch "${FILESDIR}"/${PN}-4.2-as-dir.patch
+	epatch "${FILESDIR}"/${PN}-3.2.3-ranlib.patch
+	epatch "${FILESDIR}"/${PN}-3.1.1-libtool-ranlib.patch
+	epatch "${FILESDIR}"/${PN}-3.1.1-no-headers.patch
+	epatch "${FILESDIR}"/${PN}-4.0-no-oss-dir.patch
+	epatch "${FILESDIR}"/${CCTOOLS}-lto.patch
 
 	local program
 	for program in ar efitools gprof libmacho misc otool ; do
@@ -196,17 +188,18 @@ src_configure() {
 		append-cppflags -ULTO_SUPPORT
 		LTO=0
 	fi
-    append-cppflags -mmacosx-version-min=10.6
-    # append-cppflags -D'ALL_SUPPORTED_ARCHS="i386 x86_64"'
-    append-cppflags -DSUPPORT_ARCH_i386=1
-    append-cppflags -DSUPPORT_ARCH_x86_64=1
-    append-cppflags -stdlib=libc++
+	append-cflags -mmacosx-version-min=10.6
+	append-cflags -stdlib=libc++
+	append-cppflags -mmacosx-version-min=10.6
+	# append-cppflags -D'ALL_SUPPORTED_ARCHS="i386 x86_64"'
+	append-cppflags -DSUPPORT_ARCH_i386=1
+	append-cppflags -DSUPPORT_ARCH_x86_64=1
+	append-cppflags -stdlib=libc++
 	append-cppflags -DNDEBUG
 	append-cppflags -I${WORKDIR}/libunwind/include
-	# append-cppflags -I${WORKDIR}/${LIBC}/include
 
-    append-ldflags  -mmacosx-version-min=10.6
-    append-ldflags  -stdlib=libc++
+	append-ldflags  -mmacosx-version-min=10.6
+	append-ldflags  -stdlib=libc++
 }
 
 compile_libunwind() {
@@ -287,9 +280,8 @@ install_cctools() {
 		LOCLIBDIR=\"${EPREFIX}\"${LIBPATH}
 
 
-    # TODO: hack
-    mkdir -p ${ED}/usr/x86_64-apple-darwin13/binutils-bin/libexec
-    ln -s ${ED}/usr/lib/binutils/x86_64-apple-darwin13/4.5 ${ED}/usr/x86_64-apple-darwin13/binutils-bin/libexec/as
+	mkdir -p ${ED}/usr/${CTARGET}/binutils-bin/libexec
+	ln -s ${ED}/usr/lib/binutils/${CTARGET}/${PV} ${ED}/usr/${CTARGET}/binutils-bin/libexec/as
 
 
 	cd "${ED}"${BINPATH}
