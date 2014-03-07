@@ -286,6 +286,12 @@ install_cctools() {
 		LIBDIR=\"${EPREFIX}\"${LIBPATH} \
 		LOCLIBDIR=\"${EPREFIX}\"${LIBPATH}
 
+
+    # TODO: hack
+    mkdir -p ${ED}/usr/x86_64-apple-darwin13/binutils-bin/libexec
+    ln -s ${ED}/usr/lib/binutils/x86_64-apple-darwin13/4.5 ${ED}/usr/x86_64-apple-darwin13/binutils-bin/libexec/as
+
+
 	cd "${ED}"${BINPATH}
 	insinto ${DATAPATH}/man/man1
 	local skips manpage
