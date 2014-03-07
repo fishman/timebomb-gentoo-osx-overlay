@@ -8,10 +8,12 @@ inherit eutils flag-o-matic toolchain-funcs
 
 RESTRICT="test" # the test suite will test what's installed.
 
-LD64=ld64-128.2
-CCTOOLS=cctools-822
-LIBUNWIND=libunwind-30
-DYLD=dyld-195.6
+LD64=ld64-136
+CCTOOLS=cctools-839
+# CCTOOLS=cctools-845
+LIBUNWIND=libunwind-35.3
+DYLD=dyld-239.3
+LIBC=Libc-997.1.1
 # http://lists.apple.com/archives/Darwin-dev/2009/Sep/msg00025.html
 UNWIND=binutils-apple-3.2-unwind-patches-5
 
@@ -21,6 +23,7 @@ SRC_URI="http://www.opensource.apple.com/tarballs/ld64/${LD64}.tar.gz
 	http://www.opensource.apple.com/tarballs/cctools/${CCTOOLS}.tar.gz
 	http://www.opensource.apple.com/tarballs/libunwind/${LIBUNWIND}.tar.gz
 	http://www.opensource.apple.com/tarballs/dyld/${DYLD}.tar.gz
+    http://www.opensource.apple.com/tarballs/Libc/${LIBC}.tar.gz
 	http://www.gentoo.org/~grobian/distfiles/${UNWIND}.tar.xz
 	http://www.gentoo.org/~grobian/distfiles/libunwind-llvm-115426.tar.bz2"
 
@@ -64,9 +67,17 @@ src_prepare() {
 	cp "${FILESDIR}"/${LIBUNWIND}-Makefile Makefile
 
 	cd "${S}"/${LD64}/src
-	cp "${FILESDIR}"/ld64-128.2-Makefile Makefile
-	epatch "${FILESDIR}"/ld64-127.2-lto.patch
-	epatch "${FILESDIR}"/ld64-128.2-stdlib.patch
+	cp "${FILESDIR}"/${LD64}-compile_stubs.h ld/compile_stubs.h
+	cp "${FILESDIR}"/${LD64}-Makefile Makefile
+
+    # epatch "${FILESDIR}"/ld64-136-options.patch
+    epatch "${FILESDIR}"/ld64-136-lto.patch
+	# epatch "${FILESDIR}"/ld64-127.2-lto.patch
+	# epatch "${FILESDIR}"/ld64-128.2-stdlib.patch
+
+    # TODO: hack
+    # cp ../../${LIBC}/include/CrashReporterClient.h ${WORKDIR}/libunwind/include
+
 
 	ln -s ../../${CCTOOLS}/include
 	cp other/prune_trie.h include/mach-o/ || die
@@ -89,20 +100,20 @@ src_prepare() {
 	local VER_STR="\"@(#)PROGRAM:ld  PROJECT:${LD64} (Gentoo ${PN}-${PVR})\\n\""
 	echo "char ldVersionString[] = ${VER_STR};" > version.cpp
 
-	epatch "${FILESDIR}"/ld64-123.2-debug-backtrace.patch
+	# epatch "${FILESDIR}"/ld64-123.2-debug-backtrace.patch
 	if use !lto ; then
 		sed -i -e '/#define LTO_SUPPORT 1/d' other/ObjectDump.cpp || die
 	fi
 
 	cd "${S}"/${CCTOOLS}
-	epatch "${FILESDIR}"/${PN}-4.0-as.patch
-	epatch "${FILESDIR}"/${PN}-4.2-as-dir.patch
-	epatch "${FILESDIR}"/${PN}-3.2.3-ranlib.patch
-	epatch "${FILESDIR}"/${PN}-3.1.1-libtool-ranlib.patch
-	epatch "${FILESDIR}"/${PN}-3.1.1-nmedit.patch
-	epatch "${FILESDIR}"/${PN}-3.1.1-no-headers.patch
-	epatch "${FILESDIR}"/${PN}-4.0-no-oss-dir.patch
-	epatch "${FILESDIR}"/${PN}-4.2-lto.patch
+    epatch "${FILESDIR}"/${PN}-4.0-as.patch
+    # doesn't apply epatch "${FILESDIR}"/${PN}-4.2-as-dir.patch
+    epatch "${FILESDIR}"/${PN}-3.2.3-ranlib.patch
+    epatch "${FILESDIR}"/${PN}-3.1.1-libtool-ranlib.patch
+    # doesn't apply epatch "${FILESDIR}"/${PN}-3.1.1-nmedit.patch
+    epatch "${FILESDIR}"/${PN}-3.1.1-no-headers.patch
+    epatch "${FILESDIR}"/${PN}-4.0-no-oss-dir.patch
+    # doesn't apply epatch "${FILESDIR}"/${PN}-4.2-lto.patch
 
 	local program
 	for program in ar efitools gprof libmacho misc otool ; do
@@ -168,6 +179,8 @@ src_prepare() {
 }
 
 src_configure() {
+    CC=clang
+    CXX=clang++
 	tc-export CC CXX AR
 	if use lto ; then
 		append-cppflags -DLTO_SUPPORT
@@ -178,15 +191,24 @@ src_configure() {
 		append-cppflags -ULTO_SUPPORT
 		LTO=0
 	fi
+    append-cppflags -mmacosx-version-min=10.6
+    # append-cppflags -D'ALL_SUPPORTED_ARCHS="i386 x86_64"'
+    append-cppflags -DSUPPORT_ARCH_i386=1
+    append-cppflags -DSUPPORT_ARCH_x86_64=1
+    append-cppflags -stdlib=libc++
 	append-cppflags -DNDEBUG
 	append-cppflags -I${WORKDIR}/libunwind/include
+	# append-cppflags -I${WORKDIR}/${LIBC}/include
+
+    append-ldflags  -mmacosx-version-min=10.6
+    append-ldflags  -stdlib=libc++
 }
 
 compile_libunwind() {
 	# not used, just for testing, and possible use in the future
 	einfo "building ${LIBUNWIND}"
 	cd "${S}"/${LIBUNWIND}/src
-	emake DYLDINCS=-I../../${DYLD}/include || die
+	# emake DYLDINCS=-I../../${DYLD}/include || die
 }
 
 compile_ld64() {
