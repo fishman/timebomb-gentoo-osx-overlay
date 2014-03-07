@@ -1,10 +1,10 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-lang/lua/lua-5.1.5.ebuild,v 1.16 2013/03/10 16:23:50 ago Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-lang/lua/lua-5.2.1.ebuild,v 1.3 2013/05/26 16:55:34 mabi Exp $
 
 EAPI=4
 
-inherit eutils multilib portability toolchain-funcs versionator
+inherit eutils autotools multilib portability toolchain-funcs versionator
 
 DESCRIPTION="A powerful light-weight programming language designed for extending applications"
 HOMEPAGE="http://www.lua.org/"
@@ -12,7 +12,7 @@ SRC_URI="http://www.lua.org/ftp/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ~mips ppc ppc64 s390 sh sparc x86 ~amd64-fbsd ~x86-fbsd ~arm-linux ~x86-linux"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~arm-linux ~x86-linux"
 IUSE="+deprecated emacs readline static"
 
 RDEPEND="readline? ( sys-libs/readline )"
@@ -23,24 +23,24 @@ PDEPEND="emacs? ( app-emacs/lua-mode )"
 src_prepare() {
 	local PATCH_PV=$(get_version_component_range 1-2)
 
-	epatch "${FILESDIR}"/${PN}-${PATCH_PV}-make-r1.patch
-	epatch "${FILESDIR}"/${PN}-${PATCH_PV}-module_paths.patch
+	epatch "${FILESDIR}"/${PN}-${PATCH_PV}-make.patch
 
-	#EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_SUFFIX="upstream.patch" epatch
+	[ -d "${FILESDIR}/${PV}" ] && \
+		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_SUFFIX="upstream.patch" epatch
+
+	sed -i \
+		-e 's:\(define LUA_ROOT\s*\).*:\1"'${EPREFIX}'/usr/":' \
+		-e "s:\(define LUA_CDIR\s*LUA_ROOT \"\)lib:\1$(get_libdir):" \
+		src/luaconf.h \
+	|| die "failed patching luaconf.h"
 
 	# correct lua versioning
-	sed -i -e 's/\(LIB_VERSION = \)6:1:1/\16:5:1/' src/Makefile
+	sed -i -e 's/\(LIB_VERSION = \)6:1:1/\17:0:2/' src/Makefile
 
 	sed -i -e 's:\(/README\)\("\):\1.gz\2:g' doc/readme.html
 
-	if ! use deprecated ; then
-		# patches from 5.1.4 still apply
-		epatch "${FILESDIR}"/${PN}-5.1.4-deprecated.patch
-		epatch "${FILESDIR}"/${PN}-5.1.4-test.patch
-	fi
-
 	if ! use readline ; then
-		epatch "${FILESDIR}"/${PN}-${PATCH_PV}-readline.patch
+		sed -i -e '/#define LUA_USE_READLINE/d' src/luaconf.h
 	fi
 
 	# Using dynamic linked lua is not recommended for performance
@@ -50,18 +50,13 @@ src_prepare() {
 	# compiler (built statically) nor the lua libraries (both shared and static
 	# are installed)
 	if use static ; then
-		epatch "${FILESDIR}"/${PN}-${PATCH_PV}-make_static-r1.patch
+		sed -i -e 's:\(-export-dynamic\):-static \1:' src/Makefile
 	fi
 
-	# We want packages to find our things...
-	sed -i \
-		-e 's:/usr/local:'${EPREFIX}'/usr:' \
-		-e "s:/\<lib\>:/$(get_libdir):g" \
-		etc/lua.pc src/luaconf.h || die
+	# upstream does not use libtool, but we do (see bug #336167)
+	cp "${FILESDIR}/configure.in" "${S}"
+	eautoreconf
 }
-
-# no need for a configure phase
-src_configure() { true; }
 
 src_compile() {
 	tc-export CC
@@ -81,48 +76,42 @@ src_compile() {
 
 	# what to link to the executables
 	mylibs=
-	if use readline; then
-		mylibs="-lreadline"
-	fi
+	use readline && mylibs="-lreadline"
 
 	cd src
+
+	local legacy=""
+	use deprecated && legacy="-DLUA_COMPAT_ALL"
+
 	emake CC="${CC}" CFLAGS="${mycflags} ${CFLAGS}" \
+			SYSLDFLAGS="${LDFLAGS}" \
 			RPATH="${EPREFIX}/usr/$(get_libdir)/" \
 			LUA_LIBS="${mylibs}" \
 			LIB_LIBS="${liblibs}" \
 			V=${PV} \
 			gentoo_all || die "emake failed"
-
-	mv lua_test ../test/lua.static
 }
 
 src_install() {
+	local PATCH_PV=$(get_version_component_range 1-2)
+
 	emake INSTALL_TOP="${ED}/usr" INSTALL_LIB="${ED}/usr/$(get_libdir)" \
 			V=${PV} gentoo_install \
 	|| die "emake install gentoo_install failed"
 
-	dodoc HISTORY README
+	dodoc README
 	dohtml doc/*.html doc/*.png doc/*.css doc/*.gif
 
-	doicon etc/lua.ico
-	insinto /usr/$(get_libdir)/pkgconfig
-	doins etc/lua.pc
-
 	doman doc/lua.1 doc/luac.1
-}
 
-src_test() {
-	local positive="bisect cf echo env factorial fib fibfor hello printf sieve
-	sort trace-calls trace-globals"
-	local negative="readonly"
-	local test
+	# We want packages to find our things...
+	cp "${FILESDIR}/lua.pc" "${WORKDIR}"
+	sed -i \
+		-e "s:^V=.*:V= ${PATCH_PV}:" \
+		-e "s:^R=.*:R= ${PV}:" \
+		-e "s:/,lib,:/$(get_libdir):g" \
+		"${WORKDIR}/lua.pc"
 
-	cd "${S}"
-	for test in ${positive}; do
-		test/lua.static test/${test}.lua || die "test $test failed"
-	done
-
-	for test in ${negative}; do
-		test/lua.static test/${test}.lua && die "test $test failed"
-	done
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${WORKDIR}/lua.pc"
 }
