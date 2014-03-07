@@ -1,0 +1,13 @@
+diff --git a/ld/Options.cpp b/ld/Options.cpp
+index 6dcef14..4f371d7 100644
+--- a/ld/Options.cpp
++++ b/ld/Options.cpp
+@@ -2928,6 +2928,8 @@ void Options::buildSearchPaths(int argc, const char* argv[])
+ 	int standardLibraryPathsStartIndex = libraryPaths.size();
+ 	int standardFrameworkPathsStartIndex = frameworkPaths.size();
+ 	if ( addStandardLibraryDirectories ) {
++		libraryPaths.push_back("EPREFIX/usr/lib");
++		libraryPaths.push_back("EPREFIX/usr/local/lib");
+ 		libraryPaths.push_back("/usr/lib");
+ 		libraryPaths.push_back("/usr/local/lib");
+ 

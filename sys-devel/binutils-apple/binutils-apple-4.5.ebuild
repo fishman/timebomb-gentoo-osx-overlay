@@ -72,6 +72,10 @@ src_prepare() {
 
     # epatch "${FILESDIR}"/ld64-136-options.patch
     epatch "${FILESDIR}"/ld64-136-lto.patch
+    if use prefix; then
+        epatch "${FILESDIR}"/ld64-136-librarypath.patch
+		sed -i -e 's!EPREFIX!'${EPREFIX}'!' ld/Options.cpp || die
+    fi
 	# epatch "${FILESDIR}"/ld64-127.2-lto.patch
 	# epatch "${FILESDIR}"/ld64-128.2-stdlib.patch
 
