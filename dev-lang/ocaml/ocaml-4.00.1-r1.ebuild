@@ -65,10 +65,10 @@ src_configure() {
 	use X || myconf="${myconf} -no-graph"
 
 	# ocaml uses a home-brewn configure script, preventing it to use econf.
-	RAW_LDFLAGS="$(raw-ldflags)" ./configure -prefix /usr \
-		--bindir /usr/bin \
-		--libdir /usr/$(get_libdir)/ocaml \
-		--mandir /usr/share/man \
+	RAW_LDFLAGS="$(raw-ldflags)" ./configure -prefix "${EPREFIX}"/usr \
+		--bindir "${EPREFIX}"/usr/bin \
+		--libdir "${EPREFIX}"/usr/$(get_libdir)/ocaml \
+		--mandir "${EPREFIX}"/usr/share/man \
 		-host "${CHOST}" \
 		-cc "$(tc-getCC)" \
 		-as "$(tc-getAS)" \
@@ -92,9 +92,9 @@ src_compile() {
 }
 
 src_install() {
-	make BINDIR="${D}"/usr/bin \
-		LIBDIR="${D}"/usr/$(get_libdir)/ocaml \
-		MANDIR="${D}"/usr/share/man \
+	make BINDIR="${ED}"/usr/bin \
+		LIBDIR="${ED}"/usr/$(get_libdir)/ocaml \
+		MANDIR="${ED}"/usr/share/man \
 		install
 
 	# Symlink the headers to the right place
@@ -105,7 +105,7 @@ src_install() {
 
 	# Create and envd entry for latex input files
 	if use latex ; then
-		echo "TEXINPUTS=/usr/$(get_libdir)/ocaml/ocamldoc:" > "${T}"/99ocamldoc
+		echo "TEXINPUTS="${EPREFIX}"/usr/$(get_libdir)/ocaml/ocamldoc:" > "${T}"/99ocamldoc
 		doenvd "${T}"/99ocamldoc
 	fi
 
