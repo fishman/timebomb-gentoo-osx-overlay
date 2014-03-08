@@ -12,7 +12,7 @@ SRC_URI="http://www.lua.org/ftp/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~arm-linux ~x86-linux"
+KEYWORDS="~ppc-aix ~x64-freebsd ~ia64-hpux ~x86-interix ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris ~x86-winnt"
 IUSE="+deprecated emacs readline static"
 
 RDEPEND="readline? ( sys-libs/readline )"
@@ -23,7 +23,21 @@ PDEPEND="emacs? ( app-emacs/lua-mode )"
 src_prepare() {
 	local PATCH_PV=$(get_version_component_range 1-2)
 
-	epatch "${FILESDIR}"/${PN}-${PATCH_PV}-make.patch
+	if [[ ${CHOST} == *-winnt* ]]; then
+		epatch "${FILESDIR}"/${PN}-${PATCH_PV}-make-no-libtool.patch
+	else
+		epatch "${FILESDIR}"/${PN}-${PATCH_PV}-make.patch
+
+		# Using dynamic linked lua is not recommended for performance
+		# reasons. http://article.gmane.org/gmane.comp.lang.lua.general/18519
+		# Mainly, this is of concern if your arch is poor with GPRs, like x86
+		# Note that this only affects the interpreter binary (named lua), not the lua
+		# compiler (built statically) nor the lua libraries (both shared and static
+		# are installed)
+		if use static ; then
+			sed -i -e 's:\(-export-dynamic\):-static \1:' src/Makefile
+		fi
+	fi
 
 	[ -d "${FILESDIR}/${PV}" ] && \
 		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_SUFFIX="upstream.patch" epatch
@@ -41,16 +55,6 @@ src_prepare() {
 
 	if ! use readline ; then
 		sed -i -e '/#define LUA_USE_READLINE/d' src/luaconf.h
-	fi
-
-	# Using dynamic linked lua is not recommended for performance
-	# reasons. http://article.gmane.org/gmane.comp.lang.lua.general/18519
-	# Mainly, this is of concern if your arch is poor with GPRs, like x86
-	# Note that this only affects the interpreter binary (named lua), not the lua
-	# compiler (built statically) nor the lua libraries (both shared and static
-	# are installed)
-	if use static ; then
-		sed -i -e 's:\(-export-dynamic\):-static \1:' src/Makefile
 	fi
 
 	# upstream does not use libtool, but we do (see bug #336167)
@@ -83,20 +87,20 @@ src_compile() {
 	local legacy=""
 	use deprecated && legacy="-DLUA_COMPAT_ALL"
 
-	emake CC="${CC}" CFLAGS="${mycflags} ${CFLAGS}" \
+	emake CC="${CC}" CFLAGS="${mycflags} ${legacy} ${CFLAGS}" \
 			SYSLDFLAGS="${LDFLAGS}" \
 			RPATH="${EPREFIX}/usr/$(get_libdir)/" \
 			LUA_LIBS="${mylibs}" \
 			LIB_LIBS="${liblibs}" \
 			V=${PV} \
-			all || die "emake failed"
+			gentoo_all || die "emake failed"
 }
 
 src_install() {
 	local PATCH_PV=$(get_version_component_range 1-2)
 
 	emake INSTALL_TOP="${ED}/usr" INSTALL_LIB="${ED}/usr/$(get_libdir)" \
-			V=${PV} install \
+			V=${PV} gentoo_install \
 	|| die "emake install gentoo_install failed"
 
 	dodoc README
