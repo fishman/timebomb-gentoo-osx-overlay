@@ -1,0 +1,14 @@
+diff --git a/makefile b/makefile
+index c5351d2..e250e30 100644
+--- a/makefile
++++ b/makefile
+@@ -11,6 +11,9 @@ endif
+ OBJS= src/lxplib.o $(COMPAT_O)
+ lib: src/$(LIBNAME)
+ 
++macosx : $(OBJS)
++	export MACOSX_DEPLOYMENT_TARGET="10.3"; $(CC) -o src/$(LIBNAME) -bundle -undefined dynamic_lookup $(LDFLAGS) $(OBJS) -lexpat
++
+ src/$(LIBNAME) : $(OBJS)
+ 	export MACOSX_DEPLOYMENT_TARGET="10.3"; $(CC) -o src/$(LIBNAME) $(LIB_OPTION) $(LDFLAGS) $(OBJS) -lexpat
+ 

@@ -28,15 +28,20 @@ src_prepare() {
 	sed -i -e "s#^LUA_VERSION_NUM=.*#LUA_VERSION_NUM=501#" "${S}/config"
 	epatch "${FILESDIR}/${PV}-destdir-ldflags.patch"
 	epatch "${FILESDIR}/${PN}-${PV}-lua-5.2.patch"
+	epatch "${FILESDIR}/${PN}-${PV}-darwin.patch"
 }
 
 src_compile() {
+	local mytarget=""
+	if [[ $CHOST == *-darwin* ]]; then
+		mytarget="macosx"
+	fi
 	append-flags -fPIC
 	emake \
 		CFLAGS="${CFLAGS}" \
 		LDFLAGS="${LDFLAGS}" \
 		CC="$(tc-getCC)" \
-		LD="$(tc-getCC) -shared"
+		LD="$(tc-getCC) -shared" ${mytarget}
 }
 
 src_install() {
