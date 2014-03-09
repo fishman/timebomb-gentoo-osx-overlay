@@ -31,13 +31,11 @@ src_compile() {
 	emake \
 		CC="$(tc-getCC) ${CFLAGS}" \
 		LD="$(tc-getCC) ${LDFLAGS}"\
-		$(usex debug DEBUG="DEBUG" "")\
-        ${mytarget}
+		$(usex debug DEBUG="DEBUG" "") ${mytarget}
 }
 
 src_install() {
 	local luav=$(pkg-config --variable V lua)
-    local mytarget="install-unix"
 
 	emake \
 		DESTDIR="${ED}" \

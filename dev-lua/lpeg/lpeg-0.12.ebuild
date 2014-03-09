@@ -24,11 +24,11 @@ src_prepare() {
 }
 
 src_compile() {
-    local mytarget=""
+	local mytarget=""
 	if [[ $CHOST == *-darwin* ]]; then
 		mytarget="macosx"
 	fi
-    emake CC="$(tc-getCC)" ${mytarget}
+	emake CC="$(tc-getCC)" ${mytarget}
 }
 
 src_test() {
