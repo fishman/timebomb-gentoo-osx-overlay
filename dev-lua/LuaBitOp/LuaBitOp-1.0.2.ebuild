@@ -18,9 +18,20 @@ RDEPEND="dev-lang/lua"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
+src_prepare()
+{
+    if [[ $CHOST == *-darwin* ]]; then
+        sed -i -e "s/-dynamiclib -single_module/-bundle/" Makefile
+    fi
+}
+
 src_compile()
 {
-	emake CC="$(tc-getCC)" INCLUDES= CCOPT=
+    local mytarget=""
+	if [[ $CHOST == *-darwin* ]]; then
+		mytarget="macosx"
+    fi
+	emake CC="$(tc-getCC)" INCLUDES= CCOPT= ${mytarget}
 }
 
 src_install()
