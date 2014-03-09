@@ -24,16 +24,23 @@ S=${WORKDIR}/${PN}-${PV/_/-}
 RESTRICT="test"
 
 src_compile() {
+    local mytarget=""
+	if [[ $CHOST == *-darwin* ]]; then
+		mytarget="macosx"
+    fi
 	emake \
 		CC="$(tc-getCC) ${CFLAGS}" \
 		LD="$(tc-getCC) ${LDFLAGS}"\
-		$(usex debug DEBUG="DEBUG" "")
+		$(usex debug DEBUG="DEBUG" "")\
+        ${mytarget}
 }
 
 src_install() {
 	local luav=$(pkg-config --variable V lua)
+    local mytarget="install-unix"
+
 	emake \
-		DESTDIR="${D}" \
+		DESTDIR="${ED}" \
 		LUAPREFIX_linux=/usr \
 		LUAV=${luav} \
 		CDIR_linux=$(get_libdir)/lua/${luav} \

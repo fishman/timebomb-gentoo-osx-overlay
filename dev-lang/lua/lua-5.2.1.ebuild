@@ -109,7 +109,7 @@ src_install() {
 	doman doc/lua.1 doc/luac.1
 
 	# We want packages to find our things...
-	cp "${FILESDIR}/lua.pc" "${WORKDIR}"
+	cp "${FILESDIR}/lua-5.2.pc" "${WORKDIR}"/lua.pc
 	sed -i \
 		-e "s:^V=.*:V= ${PATCH_PV}:" \
 		-e "s:^R=.*:R= ${PV}:" \

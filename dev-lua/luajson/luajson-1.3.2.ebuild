@@ -23,7 +23,12 @@ RESTRICT="test"
 # nothing to compile
 src_compile() { :; }
 
+src_prepare() {
+	local lua_ver="$(pkg-config --variable V lua)"
+    sed -i -e "s/5.1/${lua_ver}/" Makefile
+}
+
 src_install() {
-	emake PREFIX=/usr DESTDIR="${D}" install
+	emake PREFIX=/usr DESTDIR="${ED}" install
 	dodoc README docs/ReleaseNotes-${PV}.txt docs/LuaJSON.txt
 }

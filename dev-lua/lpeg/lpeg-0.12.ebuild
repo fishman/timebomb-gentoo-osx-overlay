@@ -24,7 +24,11 @@ src_prepare() {
 }
 
 src_compile() {
-	emake CC="$(tc-getCC)"
+    local mytarget=""
+	if [[ $CHOST == *-darwin* ]]; then
+		mytarget="macosx"
+	fi
+    emake CC="$(tc-getCC)" ${mytarget}
 }
 
 src_test() {
@@ -32,7 +36,7 @@ src_test() {
 }
 
 src_install() {
-	exeinto /usr/$(get_libdir)/lua/5.1
+	exeinto "$(pkg-config --variable INSTALL_CMOD lua)"
 	doexe lpeg.so
 
 	dodoc HISTORY
