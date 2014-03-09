@@ -20,17 +20,17 @@ DEPEND="${RDEPEND}
 
 src_prepare()
 {
-    if [[ $CHOST == *-darwin* ]]; then
-        sed -i -e "s/-dynamiclib -single_module/-bundle/" Makefile
-    fi
+	if [[ $CHOST == *-darwin* ]]; then
+		sed -i -e "s/-dynamiclib -single_module/-bundle/" Makefile
+	fi
 }
 
 src_compile()
 {
-    local mytarget=""
+	local mytarget=""
 	if [[ $CHOST == *-darwin* ]]; then
 		mytarget="macosx"
-    fi
+	fi
 	emake CC="$(tc-getCC)" INCLUDES= CCOPT= ${mytarget}
 }
 
