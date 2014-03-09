@@ -27,6 +27,7 @@ src_prepare() {
 	sed -i -e "s#^EXPAT_INC=.*#EXPAT_INC=/usr/include#" "${S}/config"
 	sed -i -e "s#^LUA_VERSION_NUM=.*#LUA_VERSION_NUM=501#" "${S}/config"
 	epatch "${FILESDIR}/${PV}-destdir-ldflags.patch"
+	epatch "${FILESDIR}/${PN}-${PV}-lua-5.2.patch"
 }
 
 src_compile() {
@@ -39,7 +40,7 @@ src_compile() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	emake DESTDIR="${ED}" install
 	dodoc README
 	dohtml -r doc/*
 }
