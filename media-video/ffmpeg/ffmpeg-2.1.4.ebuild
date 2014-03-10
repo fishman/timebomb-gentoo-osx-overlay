@@ -45,7 +45,7 @@ IUSE="
 	gme	gnutls gsm +hardcoded-tables +iconv iec61883 ieee1394 jack jpeg2k
 	ladspa libass libcaca libsoxr libv4l modplug mp3 +network openal openssl opus
 	oss pic pulseaudio quvi rtmp schroedinger sdl speex ssh static-libs test theora
-	threads truetype twolame v4l vaapi vdpau vorbis vpx wavpack X x264 xvid
+	threads truetype twolame v4l vaapi vda vdpau vorbis vpx wavpack X x264 xvid
 	+zlib zvbi
 	"
 
@@ -174,7 +174,7 @@ src_configure() {
 	# This will feed configure with $(use_enable foo bar)
 	# or $(use_enable foo foo) if no :bar is set.
 	local ffuse="bzip2:bzlib cpudetection:runtime-cpudetect debug doc
-			     gnutls hardcoded-tables iconv network openssl sdl:ffplay vaapi vdpau zlib"
+			     gnutls hardcoded-tables iconv network openssl sdl:ffplay vaapi vda vdpau zlib"
 	use openssl && myconf="${myconf} --enable-nonfree"
 
 	# Encoders
