@@ -108,6 +108,7 @@ RDEPEND+="
 	)
 	samba? ( net-fs/samba )
 	v4l? ( media-libs/libv4l )
+	vda? ( >=media-video/ffmpeg-2.1.0[vda] )
 	wayland? (
 		>=dev-libs/wayland-1.2.0
 		media-libs/mesa[egl,wayland]
