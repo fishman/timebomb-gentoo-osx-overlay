@@ -35,6 +35,7 @@ RDEPEND="sys-devel/binutils-config
 	lto? ( sys-devel/llvm )
 	test? ( >=dev-lang/perl-5.8.8 )"
 DEPEND="${RDEPEND}
+    sys-libs/libcxx-apple
 	>=sys-devel/gcc-apple-4.2.1"
 
 export CTARGET=${CTARGET:-${CHOST}}
