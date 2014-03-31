@@ -113,6 +113,7 @@ src_install() {
 	sed -i \
 		-e "s:^V=.*:V= ${PATCH_PV}:" \
 		-e "s:^R=.*:R= ${PV}:" \
+		-e "s:/usr:${EPREFIX}/usr:" \
 		-e "s:/,lib,:/$(get_libdir):g" \
 		"${WORKDIR}/lua.pc"
 
