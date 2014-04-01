@@ -16,7 +16,7 @@ SRC_URI="http://www.acpica.org/sites/acpica/files/${MY_P}.tar.gz
 
 LICENSE="iASL"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86 ~amd64-fbsd ~x86-fbsd"
+KEYWORDS="~amd64 ~ppc ~x86 ~amd64-fbsd ~x86-fbsd ~x64-macos"
 IUSE="test"
 
 DEPEND="sys-devel/bison
@@ -58,7 +58,11 @@ src_configure() {
 
 src_compile() {
 	cd acpica/generate/unix
-	emake BITS=${BITS} HOST=_APPLE CC=clang
+    if [[ ${CHOST} == *-darwin* ]] ; then
+        emake BITS=${BITS} HOST=_APPLE CC=clang
+    else
+        emake BITS=${BITS} 
+    fi
 }
 
 src_test() {
