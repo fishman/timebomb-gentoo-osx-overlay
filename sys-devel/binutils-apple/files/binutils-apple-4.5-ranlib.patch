@@ -1,0 +1,15 @@
+diff --git a/cbtlibs/Makefile b/cbtlibs/Makefile
+index f0cd1ac..34851aa 100644
+--- a/cbtlibs/Makefile
++++ b/cbtlibs/Makefile
+@@ -56,9 +56,9 @@ libsyminfo.a: libsyminfo.o
+ 
+ lib_ofiles_install: lib_ofiles
+ 	$(MKDIRS) $(DSTROOT)$(LOCLIBDIR)
++	ranlib $(DSTROOT)$(LOCLIBDIR)/libsyminfo.a
+ 	install -p -c -m 444 $(SYMROOT)/libsyminfo.a \
+ 		$(DSTROOT)$(LOCLIBDIR)/libsyminfo.a
+-	ranlib $(DSTROOT)$(LOCLIBDIR)/libsyminfo.a
+ 
+ $(OFILE_DIR) $(SYMROOT):
+ 	$(MKDIRS) $@
