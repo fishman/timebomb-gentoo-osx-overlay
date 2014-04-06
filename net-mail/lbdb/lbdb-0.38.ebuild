@@ -35,15 +35,22 @@ src_configure() {
 		evolution_addressbook_export="/usr/libexec/evolution/$(get_version_component_range 1-2 ${evoversion})/evolution-addressbook-export"
 	fi
 
+    local flags=""
+	if [[ ${CHOST} == *-darwin* ]] ; then
+		epatch "${FILESDIR}"/${PN}-0.38-lion.patch
+	else
+		flags="--with-getent"
+	fi
 	econf $(use_with finger) \
 		$(use_with abook) \
 		$(use_with nis ypcat) \
 		$(use_with crypt gpg) \
 		$(use_with evo evolution-addressbook-export "${evolution_addressbook_export}" ) \
+		--prefix=${EPREFIX} \
 		--enable-lbdb-dotlock \
 		--without-pgp5 --without-pgp \
-		--without-niscat --without-addr-email --with-getent \
-		--libdir=/usr/$(get_libdir)/lbdb
+		--without-niscat --without-addr-email ${flags} \
+		--libdir=${EPREFIX}/usr/$(get_libdir)/lbdb
 }
 
 src_install () {
