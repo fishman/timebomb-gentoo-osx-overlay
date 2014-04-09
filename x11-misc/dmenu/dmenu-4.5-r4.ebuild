@@ -11,7 +11,7 @@ SRC_URI="http://dl.suckless.org/tools/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~hppa ~ppc ~ppc64 ~x86 ~x86-fbsd"
+KEYWORDS="~amd64 ~hppa ~ppc ~ppc64 ~x86 ~x86-fbsd ~x64-macos"
 IUSE="xft xinerama"
 
 RDEPEND="
@@ -30,6 +30,11 @@ src_prepare() {
 		-e '/^CFLAGS/{s|=.*|+= -ansi -pedantic -Wall $(INCS) $(CPPFLAGS)|}' \
 		-e '/^LDFLAGS/s|= -s|+=|' \
 		config.mk || die
+	if [[ ${CHOST} == *-darwin* ]] ; then
+		sed -i \
+			-e 's/ansi/D_DARWIN_C_SOURCE -ansi/' \
+			config.mk || die
+	fi
 	# Make make verbose
 	sed -i \
 		-e 's|^	@|	|g' \
