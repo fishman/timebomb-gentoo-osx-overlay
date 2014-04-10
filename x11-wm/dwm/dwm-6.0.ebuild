@@ -38,7 +38,17 @@ src_prepare() {
 		Makefile || die
 
 	restore_config config.h
+    epatch "${FILESDIR}/01-statuscolours.diff"
+    epatch "${FILESDIR}/04-centredfloating.diff"
+    epatch "${FILESDIR}/07-nopaddedbar.diff"
+    epatch "${FILESDIR}/02-monoclecount.diff"
+    epatch "${FILESDIR}/05-scratchpad.diff"
+    epatch "${FILESDIR}/03-noborder.diff"
+    epatch "${FILESDIR}/06-attachaside.diff"
 	epatch_user
+
+    cp "${FILESDIR}/bstack.c" .
+    cp "${FILESDIR}/gaplessgrid.c" .
 }
 
 src_compile() {
