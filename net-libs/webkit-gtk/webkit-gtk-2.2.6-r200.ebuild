@@ -15,7 +15,7 @@ SRC_URI="http://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="2"
-KEYWORDS="~alpha ~amd64 ~arm ~ia64 ~mips ~ppc ~ppc64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos"
+KEYWORDS="~alpha ~amd64 ~arm ~ia64 ~mips ~ppc ~ppc64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x64-macos"
 IUSE="aqua coverage debug +egl +geoloc gles2 +gstreamer +introspection +jit libsecret +opengl spell +webgl"
 # bugs 372493, 416331
 REQUIRED_USE="
@@ -98,9 +98,9 @@ pkg_pretend() {
 		check-reqs_pkg_pretend
 	fi
 
-	if ! test-flag-CXX -std=c++11; then
-		die "You need at least GCC 4.7.x or Clang >= 3.0 for C++11-specific compiler flags"
-	fi
+	# if ! test-flag-CXX -std=c++11; then
+	#     die "You need at least GCC 4.7.x or Clang >= 3.0 for C++11-specific compiler flags"
+	# fi
 }
 
 pkg_setup() {
@@ -149,8 +149,15 @@ src_prepare() {
 		-e '/Programs\/TestWebKitAPI\/WebKitGtk\/testwebplugindatabase/ d' \
 		-i Source/WebKit/gtk/GNUmakefile.am || die
 
+
+	if use x64-macos; then
+		sed -i 's/-stdlib=libstdc++//g' "${S}"/Source/autotools/SetupCompilerFlags.m4 || die
+		sed -i "/^#define JSC_OBJC_API_ENABLED/s/^.*$/#define JSC_OBJC_API_ENABLED 0/" \
+		"${S}"/Source/JavaScriptCore/API/JSBase.h
+	fi
+
 	# Respect CC, otherwise fails on prefix #395875
-	tc-export CC
+	tc-export CC CXX
 
 	# bug #459978, upstream bug #113397
 	epatch "${FILESDIR}/${PN}-1.11.90-gtk-docize-fix.patch"
@@ -183,6 +190,8 @@ src_configure() {
 	# Arches without JIT support also need this to really disable it in all places
 	use jit || append-cppflags -DENABLE_JIT=0 -DENABLE_YARR_JIT=0 -DENABLE_ASSEMBLER=0
 
+	use x64-macos && append-cppflags -DGTEST_USE_OWN_TR1_TUPLE=1
+
 	# It doesn't compile on alpha without this in LDFLAGS, bug #???
 	use alpha && append-ldflags "-Wl,--no-relax"
 
@@ -194,10 +203,10 @@ src_configure() {
 
 	# Try to use less memory, bug #469942 (see Fedora .spec for reference)
 	# --no-keep-memory doesn't work on ia64, bug #502492
-	if ! use ia64; then
-		append-ldflags "-Wl,--no-keep-memory"
+	if ! use x64-macos && ! use ia64; then
+		append-ldflags "-wl,--no-keep-memory"
 	fi
-	if ! $(tc-getLD) --version | grep -q "GNU gold"; then
+	if ! use x64-macos && ! $(tc-getLD) --version | grep -q "GNU gold"; then
 		append-ldflags "-Wl,--reduce-memory-overheads"
 	fi
 
