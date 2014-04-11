@@ -9,9 +9,9 @@ IUSE="luajit vim-syntax"
 
 if [[ ${PV} == *9999* ]]; then
 	inherit git-2
-	EGIT_REPO_URI="git://github.com/mason-larobina/${PN}.git
-		https://github.com/mason-larobina/${PN}.git"
-	EGIT_BRANCH="develop"
+	EGIT_REPO_URI="git://github.com/phi-gamma/${PN}.git
+		https://github.com/phi-gamma/${PN}.git"
+	EGIT_BRANCH="lua5.2"
 	KEYWORDS=""
 	SRC_URI=""
 else
