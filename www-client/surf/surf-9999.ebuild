@@ -52,6 +52,6 @@ src_prepare() {
 }
 
 src_install() {
-	default
+	emake DESTDIR="${ED}" PREFIX="/usr" install
 	save_config config.h
 }
