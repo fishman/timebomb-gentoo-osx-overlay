@@ -1,0 +1,10 @@
+--- mplayer-1.2_pre20130729/libvo/vo_corevideo.m	2013-07-29 13:41:43.000000000 -0700
++++ mplayer-1.2_pre20130729/libvo/vo_corevideo.patched.m	2014-04-07 12:32:59.000000000 -0700
+@@ -48,6 +48,7 @@
+ 
+ #include "osdep/keycodes.h"
+ #include "osx_common.h"
++#include <OpenGL/gl.h>
+ 
+ //Cocoa
+ static NSDistantObject *mplayerosxProxy;
