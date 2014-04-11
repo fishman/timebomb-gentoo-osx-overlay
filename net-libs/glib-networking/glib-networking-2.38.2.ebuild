@@ -36,6 +36,10 @@ DEPEND="${RDEPEND}
 # eautoreconf needs >=sys-devel/autoconf-2.65:2.5
 
 src_configure() {
+    if use x64-macos; then
+        sed -i 's/-Werror=format=2//g' \
+            configure configure.ac || die
+    fi
 	gnome2_src_configure \
 		--disable-static \
 		--with-ca-certificates="${EPREFIX}"/etc/ssl/certs/ca-certificates.crt \
