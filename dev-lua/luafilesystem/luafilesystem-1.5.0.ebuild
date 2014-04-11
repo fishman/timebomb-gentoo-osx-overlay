@@ -7,7 +7,15 @@ inherit multilib toolchain-funcs
 
 DESCRIPTION="File System Library for the Lua Programming Language"
 HOMEPAGE="http://keplerproject.github.com/luafilesystem/"
-SRC_URI="mirror://github/keplerproject/luafilesystem/${P}.tar.gz"
+
+if [[ ${PV} == "9999" ]]; then
+    EGIT_REPO_URI="git://github.com/keplerproject/luafilesystem.git"
+    SRC_URI=""
+    KEYWORDS=""
+    inherit git-r3
+else
+    SRC_URI="mirror://github/keplerproject/luafilesystem/${P}.tar.gz"
+fi
 
 LICENSE="MIT"
 SLOT="0"
@@ -25,6 +33,13 @@ src_prepare() {
 		-e "/^LIB_OPTION/s|= |= ${LDFLAGS} |" \
 		-e "s|gcc|$(tc-getCC)|" \
 		config || die
+
+	local lua_ver="$(pkg-config --variable V lua)"
+	if [[ $CHOST == *-darwin* ]]; then
+		sed -i "/^LIB_OPTION/s/^.*$/LIB_OPTION= -bundle -undefined dynamic_lookup/" \
+			config || die
+	fi
+	sed -i -e "s/5.1/${lua_ver}/" config || die
 }
 
 src_install() {
