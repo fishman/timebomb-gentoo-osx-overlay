@@ -1,0 +1,19 @@
+diff --git a/gio/gdbusprivate.c b/gio/gdbusprivate.c
+index 0e5bef2..2bddb08 100644
+--- a/gio/gdbusprivate.c
++++ b/gio/gdbusprivate.c
+@@ -2105,6 +2105,14 @@ _g_dbus_get_machine_id (GError **error)
+                             &ret,
+                             NULL,
+                             &first_error) &&
++      !g_file_get_contents ("@EPREFIX@/var/lib/dbus/machine-id",
++                            &ret,
++                            NULL,
++                            &first_error) &&
++      !g_file_get_contents ("@EPREFIX@/etc/machine-id",
++                            &ret,
++                            NULL,
++                            &first_error) &&
+       !g_file_get_contents ("/etc/machine-id",
+                             &ret,
+                             NULL,

@@ -82,6 +82,11 @@ src_prepare() {
 	# Prevent build failure in stage3 where pkgconfig is not available, bug #481056
 	mv -f "${WORKDIR}"/pkg-config-*/pkg.m4 "${S}"/m4macros/ || die
 
+    if use prefix; then
+        epatch "${FILESDIR}"/${PN}-2.38.2-prefix-dbus-search-path.patch
+		sed "s:@EPREFIX@:${EPREFIX}:" \
+			-i "${S}"/gio/gdbusprivate.c || die "sed failed"
+    fi
 	# patch avoids autoreconf necessity
 	epatch "${FILESDIR}"/${PN}-2.32.1-solaris-thread.patch
 
