@@ -1,0 +1,21 @@
+diff --git a/dwm.c b/dwm.c
+index 34597e9..29f0e1b 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -2554,6 +2554,16 @@ focusurgent(const Arg *arg) {
+ 	}
+ }
+ 
++void
++centerwindow(const Arg *arg) {
++	if(!selmon->sel || !selmon->sel->isfloating || selmon->sel->isfullscreen)
++		return;
++	selmon->sel->x = selmon->sel->oldx = selmon->wx + (selmon->ww / 2 - selmon->sel->w / 2);
++	selmon->sel->y = selmon->sel->oldy = selmon->wy + (selmon->wh / 2 - selmon->sel->h / 2);
++	XMoveResizeWindow(dpy, selmon->sel->win, selmon->sel->x, selmon->sel->y, selmon->sel->w, selmon->sel->h);
++	arrange(selmon);
++}
++
+ int
+ main(int argc, char *argv[]) {
+ 	if(argc == 2 && !strcmp("-v", argv[1]))

@@ -1,0 +1,75 @@
+Homepage: http://hg.punctweb.ro
+
+--- a/dwm.c	2013-02-11 22:11:39.342773222 +0200
++++ b/dwm.c	2013-02-11 22:11:39.345773222 +0200
+@@ -90,6 +90,7 @@ struct Client {
+ 	float mina, maxa;
+ 	int x, y, w, h;
+ 	int oldx, oldy, oldw, oldh;
++	int sfx, sfy, sfw, sfh;
+ 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
+ 	int bw, oldbw;
+ 	unsigned int tags;
+@@ -278,6 +279,7 @@ static void togglescratch(const Arg *arg
+ static void togglemax(const Arg *arg);
+ static void settagsatom(Window w, unsigned int tags);
+ static void focusurgent(const Arg *arg);
++static void savefloat(Client *c);
+ 
+ /* variables */
+ static const char broken[] = "broken";
+@@ -1257,6 +1259,7 @@ manage(Window w, XWindowAttributes *wa)
+ 	updatewindowtype(c);
+ 	updatesizehints(c);
+ 	updatewmhints(c);
++	savefloat(c);
+ 	XSelectInput(dpy, w, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
+ 	grabbuttons(c, False);
+ 	if(!c->isfloating)
+@@ -1674,10 +1677,18 @@ setfullscreen(Client *c, Bool fullscreen
+ 
+ void
+ setlayout(const Arg *arg) {
++	Client *c;
++
++	if (!selmon->lt[selmon->sellt]->arrange)
++		for(c = selmon->clients; c; c = c->next)
++			savefloat(c);
+ 	if(!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
+ 		selmon->sellt ^= 1;
+ 	if(arg && arg->v)
+ 		selmon->lt[selmon->sellt] = selmon->lts[selmon->curtag] = (Layout *)arg->v;
++	if (!selmon->lt[selmon->sellt]->arrange)
++		for(c = selmon->clients; c; c = c->next)
++			resize(c, c->sfx, c->sfy, c->sfw, c->sfh, False);
+ 	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
+ 	if(selmon->sel)
+ 		arrange(selmon);
+@@ -1884,8 +1895,10 @@ togglefloating(const Arg *arg) {
+ 		return;
+ 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
+ 	if(selmon->sel->isfloating)
+-		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
+-		       selmon->sel->w, selmon->sel->h, False);
++		resize(selmon->sel, selmon->sel->sfx, selmon->sel->sfy,
++		       selmon->sel->sfw, selmon->sel->sfh, False);
++	else
++		savefloat(selmon->sel);
+ 	arrange(selmon);
+ }
+ 
+@@ -2607,6 +2620,14 @@ focusurgent(const Arg *arg) {
+ 	}
+ }
+ 
++void
++savefloat(Client *c) {
++	c->sfx = c->x;
++	c->sfy = c->y;
++	c->sfw = c->w;
++	c->sfh = c->h;
++}
++
+ int
+ main(int argc, char *argv[]) {
+ 	if(argc == 2 && !strcmp("-v", argv[1]))

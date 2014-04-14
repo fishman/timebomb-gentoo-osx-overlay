@@ -1,0 +1,83 @@
+diff --git a/dwm.c b/dwm.c
+index 1fa31c9..ef1abd6 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -62,6 +62,7 @@ enum { NetSupported, NetWMName, NetWMState,
+        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+        NetWMWindowTypeDialog, NetLast };     /* EWMH atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
++enum { DWMTags, DWMLast };                              /* DWM atoms */
+ enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+        ClkClientWin, ClkRootWin, ClkLast };             /* clicks */
+ 
+@@ -272,6 +273,7 @@ static void gaplessgrid(Monitor *m);
+ static void pidgin(Monitor *m);
+ static void togglescratch(const Arg *arg);
+ static void togglemax(const Arg *arg);
++static void settagsatom(Window w, unsigned int tags);
+ 
+ /* variables */
+ static const char broken[] = "broken";
+@@ -297,7 +299,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
+ 	[PropertyNotify] = propertynotify,
+ 	[UnmapNotify] = unmapnotify
+ };
+-static Atom wmatom[WMLast], netatom[NetLast];
++static Atom wmatom[WMLast], netatom[NetLast], dwmatom[DWMLast];
+ static Bool running = True;
+ static Cursor cursor[CurLast];
+ static Display *dpy;
+@@ -1170,6 +1172,10 @@ manage(Window w, XWindowAttributes *wa) {
+ 	Client *c, *t = NULL;
+ 	Window trans = None;
+ 	XWindowChanges wc;
++	int format;
++	unsigned int *ptags;
++	unsigned long n, extra;
++	Atom atom;
+ 
+ 	if(!(c = calloc(1, sizeof(Client))))
+ 		die("fatal: could not malloc() %u bytes\n", sizeof(Client));
+@@ -1182,7 +1188,13 @@ manage(Window w, XWindowAttributes *wa) {
+ 	else {
+ 		c->mon = selmon;
+ 		applyrules(c);
++		if(XGetWindowProperty(dpy, c->win, dwmatom[DWMTags], 0L, 1L, False, XA_CARDINAL,
++		                      &atom, &format, &n, &extra, (unsigned char **)&ptags) == Success && n == 1 && *ptags != 0) {
++			c->tags = *ptags;
++			XFree(ptags);
++		}
+ 	}
++	settagsatom(c->win, c->tags);
+ 	/* geometry */
+ 	c->x = c->oldx = wa->x;
+ 	c->y = c->oldy = wa->y;
+@@ -1749,6 +1761,7 @@ void
+ tag(const Arg *arg) {
+ 	if(selmon->sel && arg->ui & TAGMASK) {
+ 		selmon->sel->tags = arg->ui & TAGMASK;
++		settagsatom(selmon->sel->win, selmon->sel->tags);
+ 		focus(NULL);
+ 		arrange(selmon);
+ 		if(viewontag)
+@@ -1839,6 +1852,7 @@ toggletag(const Arg *arg) {
+ 		}
+ 		selmon->sel->tags = newtags;
+ 		selmon->lt[selmon->sellt] = selmon->lts[selmon->curtag];
++		settagsatom(selmon->sel->win, selmon->sel->tags);
+ 		focus(NULL);
+ 		arrange(selmon);
+ 	}
+@@ -2484,6 +2498,12 @@ togglemax(const Arg *arg) {
+ 	}
+ }
+ 
++void
++settagsatom(Window w, unsigned int tags) {
++	XChangeProperty(dpy, w, dwmatom[DWMTags], XA_CARDINAL, 32,
++	                PropModeReplace, (unsigned char*)&tags, 1);
++}
++
+ int
+ main(int argc, char *argv[]) {
+ 	if(argc == 2 && !strcmp("-v", argv[1]))

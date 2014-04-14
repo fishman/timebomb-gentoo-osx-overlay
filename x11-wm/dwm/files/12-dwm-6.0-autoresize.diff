@@ -1,0 +1,36 @@
+Homepage: http://hg.punctweb.ro
+
+--- a/dwm.c	2013-02-11 22:11:39.265773226 +0200
++++ b/dwm.c	2013-02-11 22:11:39.268773225 +0200
+@@ -91,7 +91,7 @@ struct Client {
+ 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
+ 	int bw, oldbw;
+ 	unsigned int tags;
+-	Bool isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
++	Bool isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, needresize;
+ 	Client *next;
+ 	Client *snext;
+ 	Monitor *mon;
+@@ -660,6 +660,8 @@ configurerequest(XEvent *e) {
+ 				configure(c);
+ 			if(ISVISIBLE(c))
+ 				XMoveResizeWindow(dpy, c->win, c->x, c->y, c->w, c->h);
++			else
++				c->needresize = True;
+ 		}
+ 		else
+ 			configure(c);
+@@ -1716,7 +1718,12 @@ showhide(Client *c) {
+ 	if(!c)
+ 		return;
+ 	if(ISVISIBLE(c)) { /* show clients top down */
+-		XMoveWindow(dpy, c->win, c->x, c->y);
++		if(c->needresize) {
++			c->needresize = False;
++			XMoveResizeWindow(dpy, c->win, c->x, c->y, c->w, c->h);
++		} else {
++			XMoveWindow(dpy, c->win, c->x, c->y);
++		}
+ 		if((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
+ 			resize(c, c->x, c->y, c->w, c->h, False);
+ 		showhide(c->snext);
