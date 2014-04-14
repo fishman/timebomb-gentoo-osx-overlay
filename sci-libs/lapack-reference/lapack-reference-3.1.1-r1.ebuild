@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sci-libs/lapack-reference/lapack-reference-3.1.1-r1.ebuild,v 1.20 2008/12/07 19:10:42 vapier Exp $
 
-inherit eutils autotools flag-o-matic fortran multilib
+inherit eutils autotools flag-o-matic fortran-2 multilib
 
 MyPN="${PN/-reference/}"
 
