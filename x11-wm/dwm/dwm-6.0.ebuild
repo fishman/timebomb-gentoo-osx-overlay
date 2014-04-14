@@ -12,7 +12,7 @@ SRC_URI="http://dl.suckless.org/${PN}/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 ppc ppc64 x86 ~x86-fbsd"
+KEYWORDS="amd64 ppc ppc64 x86 ~x86-fbsd ~x86-darwin"
 IUSE="xinerama"
 
 DEPEND="x11-libs/libX11
