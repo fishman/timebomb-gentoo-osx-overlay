@@ -44,8 +44,11 @@ src_install() {
 	local targetdir="/usr/$(get_libdir)/erlang/lib/rabbitmq_server-${PV}"
 
 	einfo "Setting correct RABBITMQ_HOME in scripts"
-	sed -e "s:^RABBITMQ_HOME=.*:RABBITMQ_HOME=\"${targetdir}\":g" \
+	sed -e "s:^RABBITMQ_HOME=.*:RABBITMQ_HOME=\"${EPREFIX}${targetdir}\":g" \
 		-i scripts/rabbitmq-env
+
+	sed -e "s:^SYS_PREFIX=.*:SYS_PREFIX=\"${EPREFIX}\":g" \
+		-i scripts/rabbitmq-defaults
 
 	einfo "Installing Erlang modules to ${targetdir}"
 	insinto "${targetdir}"
@@ -59,11 +62,19 @@ src_install() {
 	done
 
 	# create the directory where our log file will go.
-	diropts -m 0770 -o rabbitmq -g rabbitmq
+	if [[ ${CHOST} == *-apple-darwin* ]]; then
+		diropts -m 0770
+	else
+		diropts -m 0770 -o rabbitmq -g rabbitmq
+	fi
 	keepdir /var/log/rabbitmq /etc/rabbitmq
 
 	# create the mnesia directory
-	diropts -m 0770 -o rabbitmq -g rabbitmq
+	if [[ ${CHOST} == *-apple-darwin* ]]; then
+		diropts -m 0770
+	else
+		diropts -m 0770 -o rabbitmq -g rabbitmq
+	fi
 	dodir /var/lib/rabbitmq{,/mnesia}
 
 	# install the init script
