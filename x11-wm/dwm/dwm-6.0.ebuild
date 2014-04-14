@@ -13,7 +13,7 @@ SRC_URI="http://dl.suckless.org/${PN}/${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 ppc ppc64 x86 ~x86-fbsd ~x86-macos ~x64-macos"
-IUSE="xinerama"
+IUSE="xinerama systray"
 
 DEPEND="x11-libs/libX11
 	xinerama? (
@@ -38,17 +38,29 @@ src_prepare() {
 		Makefile || die
 
 	restore_config config.h
-    epatch "${FILESDIR}/01-statuscolours.diff"
-    epatch "${FILESDIR}/04-centredfloating.diff"
-    epatch "${FILESDIR}/07-nopaddedbar.diff"
-    epatch "${FILESDIR}/02-monoclecount.diff"
-    epatch "${FILESDIR}/05-scratchpad.diff"
-    epatch "${FILESDIR}/03-noborder.diff"
-    epatch "${FILESDIR}/06-attachaside.diff"
+	epatch "${FILESDIR}/01-dwm-6.0-pertag2.diff"
+	epatch "${FILESDIR}/02-dwm-6.0-push.diff"
+	epatch "${FILESDIR}/03-dwm-6.0-cycle.diff"
+	epatch "${FILESDIR}/04-dwm-6.0-gaplessgrid.diff"
+	epatch "${FILESDIR}/05-dwm-6.0-pidgin.diff"
+	epatch "${FILESDIR}/06-dwm-6.0-monocle_count.diff"
+	epatch "${FILESDIR}/07-dwm-6.0-monocle_borderless.diff"
+	epatch "${FILESDIR}/08-dwm-6.0-clicktofocus.diff"
+	epatch "${FILESDIR}/09-dwm-6.0-viewontag.diff"
+	epatch "${FILESDIR}/10-dwm-6.0-scratchpad.diff"
+	epatch "${FILESDIR}/11-dwm-6.0-togglemax.diff"
+	epatch "${FILESDIR}/12-dwm-6.0-autoresize.diff"
+	epatch "${FILESDIR}/13-dwm-6.0-increase_mfact_limit.diff"
+	# epatch "${FILESDIR}/14-dwm-6.0-remember-tags.diff"
+	epatch "${FILESDIR}/15-dwm-6.0-centred-floating.diff"
+	epatch "${FILESDIR}/16-dwm-6.0-focusurgent.diff"
+	epatch "${FILESDIR}/17-dwm-6.0-statuscolors.diff"
+	# epatch "${FILESDIR}/18-dwm-6.0-save_floats.diff"
+	if use systray; then
+		epatch "${FILESDIR}/19-dwm-6.0-systray.diff"
+	fi
+	epatch "${FILESDIR}/20-dwm-6.0-centerwindow.diff"
 	epatch_user
-
-    cp "${FILESDIR}/bstack.c" .
-    cp "${FILESDIR}/gaplessgrid.c" .
 }
 
 src_compile() {
