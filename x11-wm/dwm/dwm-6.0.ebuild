@@ -56,10 +56,10 @@ src_prepare() {
 	epatch "${FILESDIR}/16-dwm-6.0-focusurgent.diff"
 	epatch "${FILESDIR}/17-dwm-6.0-statuscolors.diff"
 	# epatch "${FILESDIR}/18-dwm-6.0-save_floats.diff"
+	epatch "${FILESDIR}/20-dwm-6.0-centerwindow.diff"
 	if use systray; then
 		epatch "${FILESDIR}/19-dwm-6.0-systray.diff"
 	fi
-	epatch "${FILESDIR}/20-dwm-6.0-centerwindow.diff"
 	epatch_user
 }
 
