@@ -38,11 +38,11 @@ src_compile() {
 	local myconf
 	use gtk3 && myconf+=" GTK=3"
 
-	emake CC="$(tc-getCC)" ${myconf}
+	emake CC="$(tc-getCC)" PREFIX="${EPREFIX}/usr" ${myconf}
 }
 
 src_install() {
-	default
+	emake PREFIX="${EPREFIX}/usr" install
 
 	if use examples ; then
 		dodoc -r examples
