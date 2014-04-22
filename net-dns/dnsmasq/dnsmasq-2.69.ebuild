@@ -85,6 +85,9 @@ src_prepare() {
 }
 
 src_configure() {
+	if use kernel_Darwin; then
+		append-ldflags "-lintl -lidn"
+	fi
 	COPTS="$(use_have -n auth-dns auth)"
 	COPTS+="$(use_have conntrack)"
 	COPTS+="$(use_have dbus)"
@@ -101,16 +104,16 @@ src_configure() {
 
 src_compile() {
 	emake \
-		PREFIX=/usr \
+		PREFIX=${EPREFIX}/usr \
 		CC="$(tc-getCC)" \
 		CFLAGS="${CFLAGS}" \
 		LDFLAGS="${LDFLAGS}" \
 		COPTS="${COPTS}" \
-		CONFFILE="/etc/${PN}.conf" \
+		CONFFILE="${EPREFIX}/etc/${PN}.conf" \
 		all$(use nls && echo "-i18n")
 
 	use dhcp-tools && emake -C contrib/wrt \
-		PREFIX=/usr \
+		PREFIX=${EPREFIX}/usr \
 		CC="$(tc-getCC)" \
 		CFLAGS="${CFLAGS}" \
 		LDFLAGS="${LDFLAGS}" \
@@ -119,16 +122,16 @@ src_compile() {
 
 src_install() {
 	emake \
-		PREFIX=/usr \
-		MANDIR=/usr/share/man \
+		PREFIX=${EPREFIX}/usr \
+		MANDIR=${EPREFIX}/usr/share/man \
 		DESTDIR="${D}" \
 		install$(use nls && echo "-i18n")
 
 	local lingua
 	for lingua in ${DM_LINGUAS}; do
-		use linguas_${lingua} || rm -rf "${D}"/usr/share/locale/${lingua}
+		use linguas_${lingua} || rm -rf "${ED}"/usr/share/locale/${lingua}
 	done
-	[[ -d "${D}"/usr/share/locale/ ]] && rmdir --ignore-fail-on-non-empty "${D}"/usr/share/locale/
+	[[ -d "${ED}"/usr/share/locale/ ]] && rmdir --ignore-fail-on-non-empty "${ED}"/usr/share/locale/
 
 	dodoc CHANGELOG CHANGELOG.archive FAQ
 	dodoc -r logo
