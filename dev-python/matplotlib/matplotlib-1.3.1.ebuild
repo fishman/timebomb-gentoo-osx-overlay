@@ -4,7 +4,7 @@
 
 EAPI=5
 
-PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} )
+PYTHON_COMPAT=( python{2_6,2_7,3_3} )
 
 PYTHON_REQ_USE='tk?'
 
@@ -27,8 +27,7 @@ IUSE="cairo doc excel examples fltk gtk gtk3 latex pyside qt4 test tk wxwidgets"
 
 # #456704 -- a lot of py2-only deps
 PY2_USEDEP=$(python_gen_usedep 'python2*')
-PY32_USEDEP=$(python_gen_usedep python3_2)
-PY3_USEDEP=$(python_gen_usedep python{3_2,3_3})
+PY3_USEDEP=$(python_gen_usedep python3_3)
 COMMON_DEPEND="
 	dev-python/numpy[${PYTHON_USEDEP}]
 	dev-python/python-dateutil:0[${PYTHON_USEDEP}]
